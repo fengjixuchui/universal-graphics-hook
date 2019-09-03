@@ -6,16 +6,7 @@ namespace ug {
 
 	Status ug::init(GraphicsType _renderType)
 	{
-		static bool first = true;
-#if UG_DEBUG
-		if (first) {
-			first = false;
-
-			AllocConsole();
-			auto _ = freopen("CONOUT$", "w", stdout);
-			DEBUG_PRINT("[+] Debugging Console Initialized!");
-		}
-#endif
+		DEBUG_INIT;
 
 		if (g_renderType != Unknown)
 		{

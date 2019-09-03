@@ -4,8 +4,6 @@ using namespace::ug;
 static std::once_flag g_isInitialized;
 
 #pragma region D3D9
-static LPDIRECT3DDEVICE9 g_pd3d9Device = nullptr;
-
 typedef HRESULT(__stdcall* d3d9Present)(LPDIRECT3DDEVICE9);
 typedef HRESULT(__stdcall* d3d9EndScene)(LPDIRECT3DDEVICE9);
 
@@ -17,13 +15,6 @@ HRESULT __stdcall hkd3d9Present
 	LPDIRECT3DDEVICE9 pDevice
 )
 {
-	static bool init = false;
-	if (!init)
-	{
-		g_pd3d9Device = pDevice;
-		init = true;
-	}
-
 	return g_od3d9Present(pDevice);
 }
 

@@ -26,9 +26,16 @@
 #include <MinHook.h>
 
 #define UG_DEBUG 1
+static int UG_DEBUG_INIT = 0;
+
+#define DEBUG_INIT \
+			do { if (UG_DEBUG && !UG_DEBUG_INIT) { \
+			AllocConsole(); \
+			freopen("CONOUT$", "w", stdout); \
+			UG_DEBUG_INIT = 1; }} while (0)
 
 #define DEBUG_PRINT(fmt, ...) \
-            do { if (UG_DEBUG) std::cout << fmt << std::endl; } while (0)
+            do { if (UG_DEBUG && UG_DEBUG_INIT) std::cout << fmt << std::endl; } while (0)
 
 #ifdef _UNICODE
 # define UG_TEXT(text) L##text
