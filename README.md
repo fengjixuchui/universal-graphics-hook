@@ -90,6 +90,7 @@ BOOL WINAPI DllMain
 }
 ```
 
+### Debugging
 To disable / enable debuggin console, then just change (https://github.com/alxbrn/universal-graphics-hook/blob/master/ug.h#L28):
 ```c++
 #define UG_DEBUG 1
