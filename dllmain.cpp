@@ -278,23 +278,23 @@ int thread()
 
 		switch (render_type) {
 		case D3D9:
-			bind(17, (void**)& g_od3d9Present, hkd3d9Present);
-			bind(42, (void**)& g_od3d9EndScene, hkd3d9EndScene);
+			bind(D3D9MT::Present, (void**)& g_od3d9Present, hkd3d9Present);
+			bind(D3D9MT::EndScene, (void**)& g_od3d9EndScene, hkd3d9EndScene);
 			break;
 		case D3D10:
-			bind(8, (void**)& g_od3d10Present, hkd3d10Present);
-			bind(73, (void**)& g_od3d10DrawIndexed, hkd3d10DrawIndexed);
-			bind(111, (void**)& g_od3d10ClearRenderTargetView, hkd3d10ClearRenderTargetView);
+			bind(D3D10MT::Present, (void**)& g_od3d10Present, hkd3d10Present);
+			bind(D3D10MT::GSGetSamplers, (void**)& g_od3d10DrawIndexed, hkd3d10DrawIndexed);
+			bind(D3D10MT::CheckCounter, (void**)& g_od3d10ClearRenderTargetView, hkd3d10ClearRenderTargetView);
 			break;
 		case D3D11:
-			bind(8, (void**)& g_od3d11Present, hkd3d11Present);
-			bind(73, (void**)& g_od3d11DrawIndexed, hkd3d11DrawIndexed);
-			bind(111, (void**)& g_od3d11ClearRenderTargetView, hkd3d11ClearRenderTargetView);
+			bind(D3D11MT::Present, (void**)& g_od3d11Present, hkd3d11Present);
+			bind(D3D11MT::DrawIndexed, (void**)& g_od3d11DrawIndexed, hkd3d11DrawIndexed);
+			bind(D3D11MT::ClearRenderTargetView, (void**)& g_od3d11ClearRenderTargetView, hkd3d11ClearRenderTargetView);
 			break;
 		case D3D12:
-			bind(140, (void**)& g_od3d12Present, hkd3d12Present);
-			//bind(84, (void**)& hkd3d12DrawInstanced, hkd3d12DrawInstanced);
-			//bind(85, (void**)& hkd3d12DrawIndexedInstanced, hkd3d12DrawIndexedInstanced);
+			bind(D3D12MT::Present, (void**)& g_od3d12Present, hkd3d12Present);
+			//bind(D3D12MT::DrawInstanced, (void**)& hkd3d12DrawInstanced, hkd3d12DrawInstanced);
+			//bind(D3D12MT::DrawIndexedInstanced, (void**)& hkd3d12DrawIndexedInstanced, hkd3d12DrawIndexedInstanced);
 			break;
 		case GDI:
 			// Not implemented	
@@ -303,17 +303,17 @@ int thread()
 			// Not implemented
 			break;
 		case OpenGL:
-			bind(321, (void**)& g_oglVertex3fv, hkglVertex3fv);
-			bind(320, (void**)& g_oglVertex3f, hkglVertex3f);
-			bind(4, (void**)& g_oglBegin, hkglBegin);
-			bind(74, (void**)& g_oglEnd, hkglEnd);
-			bind(10, (void**)& g_oglClear, hkglClear);
-			bind(72, (void**)& g_oglEnable, hkglEnable);
+			bind(OPENGLMT::glVertex3fv, (void**)& g_oglVertex3fv, hkglVertex3fv);
+			bind(OPENGLMT::glVertex3f, (void**)& g_oglVertex3f, hkglVertex3f);
+			bind(OPENGLMT::glBegin, (void**)& g_oglBegin, hkglBegin);
+			bind(OPENGLMT::glEnd, (void**)& g_oglEnd, hkglEnd);
+			bind(OPENGLMT::glClear, (void**)& g_oglClear, hkglClear);
+			bind(OPENGLMT::glEnable, (void**)& g_oglEnable, hkglEnable);
 			break;
 		case Vulkan:
-			bind(106, (void**)& g_ovkDrawIndexed, hkvkDrawIndexed);
-			bind(108, (void**)& g_ovkDrawIndexedIndirect, hkvkDrawIndexedIndirect);
-			bind(104, (void**)& g_ovkBindVertexBuffers, hkvkBindVertexBuffers);
+			bind(VULKANMT::vkCmdDrawIndexed, (void**)& g_ovkDrawIndexed, hkvkDrawIndexed);
+			bind(VULKANMT::vkCmdDrawIndexedIndirect, (void**)& g_ovkDrawIndexedIndirect, hkvkDrawIndexedIndirect);
+			bind(VULKANMT::vkCmdBindVertexBuffers, (void**)& g_ovkBindVertexBuffers, hkvkBindVertexBuffers);
 			break;
 		}
 	}
