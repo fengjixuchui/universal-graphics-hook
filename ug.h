@@ -23,7 +23,7 @@
 
 #include <vulkan/vulkan.h>
 
-#include <MinHook.h>
+#include "minhook/MinHook.h"
 
 #define UG_DEBUG 1
 static int UG_DEBUG_INIT = 0;
@@ -110,1076 +110,1081 @@ namespace ug
 
 #endif // __UG_H__
 
-//D3D9 Methods Table :
-//[0] QueryInterface
-//[1]   AddRef
-//[2]   Release
-//[3]   TestCooperativeLevel
-//[4]   GetAvailableTextureMem
-//[5]   EvictManagedResources
-//[6]   GetDirect3D
-//[7]   GetDeviceCaps
-//[8]   GetDisplayMode
-//[9]   GetCreationParameters
-//[10]  SetCursorProperties
-//[11]  SetCursorPosition
-//[12]  ShowCursor
-//[13]  CreateAdditionalSwapChain
-//[14]  GetSwapChain
-//[15]  GetNumberOfSwapChains
-//[16]  Reset
-//[17]  Present
-//[18]  GetBackBuffer
-//[19]  GetRasterStatus
-//[20]  SetDialogBoxMode
-//[21]  SetGammaRamp
-//[22]  GetGammaRamp
-//[23]  CreateTexture
-//[24]  CreateVolumeTexture
-//[25]  CreateCubeTexture
-//[26]  CreateVertexBuffer
-//[27]  CreateIndexBuffer
-//[28]  CreateRenderTarget
-//[29]  CreateDepthStencilSurface
-//[30]  UpdateSurface
-//[31]  UpdateTexture
-//[32]  GetRenderTargetData
-//[33]  GetFrontBufferData
-//[34]  StretchRect
-//[35]  ColorFill
-//[36]  CreateOffscreenPlainSurface
-//[37]  SetRenderTarget
-//[38]  GetRenderTarget
-//[39]  SetDepthStencilSurface
-//[40]  GetDepthStencilSurface
-//[41]  BeginScene
-//[42]  EndScene
-//[43]  Clear
-//[44]  SetTransform
-//[45]  GetTransform
-//[46]  MultiplyTransform
-//[47]  SetViewport
-//[48]  GetViewport
-//[49]  SetMaterial
-//[50]  GetMaterial
-//[51]  SetLight
-//[52]  GetLight
-//[53]  LightEnable
-//[54]  GetLightEnable
-//[55]  SetClipPlane
-//[56]  GetClipPlane
-//[57]  SetRenderState
-//[58]  GetRenderState
-//[59]  CreateStateBlock
-//[60]  BeginStateBlock
-//[61]  EndStateBlock
-//[62]  SetClipStatus
-//[63]  GetClipStatus
-//[64]  GetTexture
-//[65]  SetTexture
-//[66]  GetTextureStageState
-//[67]  SetTextureStageState
-//[68]  GetSamplerState
-//[69]  SetSamplerState
-//[70]  ValidateDevice
-//[71]  SetPaletteEntries
-//[72]  GetPaletteEntries
-//[73]  SetCurrentTexturePalette
-//[74]  GetCurrentTexturePalette
-//[75]  SetScissorRect
-//[76]  GetScissorRect
-//[77]  SetSoftwareVertexProcessing
-//[78]  GetSoftwareVertexProcessing
-//[79]  SetNPatchMode
-//[80]  GetNPatchMode
-//[81]  DrawPrimitive
-//[82]  DrawIndexedPrimitive
-//[83]  DrawPrimitiveUP
-//[84]  DrawIndexedPrimitiveUP
-//[85]  ProcessVertices
-//[86]  CreateVertexDeclaration
-//[87]  SetVertexDeclaration
-//[88]  GetVertexDeclaration
-//[89]  SetFVF
-//[90]  GetFVF
-//[91]  CreateVertexShader
-//[92]  SetVertexShader
-//[93]  GetVertexShader
-//[94]  SetVertexShaderConstantF
-//[95]  GetVertexShaderConstantF
-//[96]  SetVertexShaderConstantI
-//[97]  GetVertexShaderConstantI
-//[98]  SetVertexShaderConstantB
-//[99]  GetVertexShaderConstantB
-//[100] SetStreamSource
-//[101] GetStreamSource
-//[102] SetStreamSourceFreq
-//[103] GetStreamSourceFreq
-//[104] SetIndices
-//[105] GetIndices
-//[106] CreatePixelShader
-//[107] SetPixelShader
-//[108] GetPixelShader
-//[109] SetPixelShaderConstantF
-//[110] GetPixelShaderConstantF
-//[111] SetPixelShaderConstantI
-//[112] GetPixelShaderConstantI
-//[113] SetPixelShaderConstantB
-//[114] GetPixelShaderConstantB
-//[115] DrawRectPatch
-//[116] DrawTriPatch
-//[117] DeletePatch
-//[118] CreateQuery
-//
-//D3D10 Methods Table :
-//[0] QueryInterface
-//[1]   AddRef
-//[2]   Release
-//[3]   SetPrivateData
-//[4]   SetPrivateDataInterface
-//[5]   GetPrivateData
-//[6]   GetParent
-//[7]   GetDevice
-//[8]   Present
-//[9]   GetBuffer
-//[10]  SetFullscreenState
-//[11]  GetFullscreenState
-//[12]  GetDesc
-//[13]  ResizeBuffers
-//[14]  ResizeTarget
-//[15]  GetContainingOutput
-//[16]  GetFrameStatistics
-//[17]  GetLastPresentCount
-//[18]  QueryInterface
-//[19]  AddRef
-//[20]  Release
-//[21]  VSSetConstantBuffers
-//[22]  PSSetShaderResources
-//[23]  PSSetShader
-//[24]  PSSetSamplers
-//[25]  VSSetShader
-//[26]  DrawIndexed
-//[27]  Draw
-//[28]  PSSetConstantBuffers
-//[29]  IASetInputLayout
-//[30]  IASetVertexBuffers
-//[31]  IASetIndexBuffer
-//[32]  DrawIndexedInstanced
-//[33]  DrawInstanced
-//[34]  GSSetConstantBuffers
-//[35]  GSSetShader
-//[36]  IASetPrimitiveTopology
-//[37]  VSSetShaderResources
-//[38]  VSSetSamplers
-//[39]  SetPredication
-//[40]  GSSetShaderResources
-//[41]  GSSetSamplers
-//[42]  OMSetRenderTargets
-//[43]  OMSetBlendState
-//[44]  OMSetDepthStencilState
-//[45]  SOSetTargets
-//[46]  DrawAuto
-//[47]  RSSetState
-//[48]  RSSetViewports
-//[49]  RSSetScissorRects
-//[50]  CopySubresourceRegion
-//[51]  CopyResource
-//[52]  UpdateSubresource
-//[53]  ClearRenderTargetView
-//[54]  ClearDepthStencilView
-//[55]  GenerateMips
-//[56]  ResolveSubresource
-//[57]  VSGetConstantBuffers
-//[58]  PSGetShaderResources
-//[59]  PSGetShader
-//[60]  PSGetSamplers
-//[61]  VSGetShader
-//[62]  PSGetConstantBuffers
-//[63]  IAGetInputLayout
-//[64]  IAGetVertexBuffers
-//[65]  IAGetIndexBuffer
-//[66]  GSGetConstantBuffers
-//[67]  GSGetShader
-//[68]  IAGetPrimitiveTopology
-//[69]  VSGetShaderResources
-//[70]  VSGetSamplers
-//[71]  GetPredication
-//[72]  GSGetShaderResources
-//[73]  GSGetSamplers
-//[74]  OMGetRenderTargets
-//[75]  OMGetBlendState
-//[76]  OMGetDepthStencilState
-//[77]  SOGetTargets
-//[78]  RSGetState
-//[79]  RSGetViewports
-//[80]  RSGetScissorRects
-//[81]  GetDeviceRemovedReason
-//[82]  SetExceptionMode
-//[83]  GetExceptionMode
-//[84]  GetPrivateData
-//[85]  SetPrivateData
-//[86]  SetPrivateDataInterface
-//[87]  ClearState
-//[88]  Flush
-//[89]  CreateBuffer
-//[90]  CreateTexture1D
-//[91]  CreateTexture2D
-//[92]  CreateTexture3D
-//[93]  CreateShaderResourceView
-//[94]  CreateRenderTargetView
-//[95]  CreateDepthStencilView
-//[96]  CreateInputLayout
-//[97]  CreateVertexShader
-//[98]  CreateGeometryShader
-//[99]  CreateGemoetryShaderWithStreamOutput
-//[100] CreatePixelShader
-//[101] CreateBlendState
-//[102] CreateDepthStencilState
-//[103] CreateRasterizerState
-//[104] CreateSamplerState
-//[105] CreateQuery
-//[106] CreatePredicate
-//[107] CreateCounter
-//[108] CheckFormatSupport
-//[109] CheckMultisampleQualityLevels
-//[110] CheckCounterInfo
-//[111] CheckCounter
-//[112] GetCreationFlags
-//[113] OpenSharedResource
-//[114] SetTextFilterSize
-//[115] GetTextFilterSize
-//
-//D3D11 Methods Table :
-//[0] QueryInterface
-//[1]   AddRef
-//[2]   Release
-//[3]   SetPrivateData
-//[4]   SetPrivateDataInterface
-//[5]   GetPrivateData
-//[6]   GetParent
-//[7]   GetDevice
-//[8]   Present
-//[9]   GetBuffer
-//[10]  SetFullscreenState
-//[11]  GetFullscreenState
-//[12]  GetDesc
-//[13]  ResizeBuffers
-//[14]  ResizeTarget
-//[15]  GetContainingOutput
-//[16]  GetFrameStatistics
-//[17]  GetLastPresentCount
-//[18]  QueryInterface
-//[19]  AddRef
-//[20]  Release
-//[21]  CreateBuffer
-//[22]  CreateTexture1D
-//[23]  CreateTexture2D
-//[24]  CreateTexture3D
-//[25]  CreateShaderResourceView
-//[26]  CreateUnorderedAccessView
-//[27]  CreateRenderTargetView
-//[28]  CreateDepthStencilView
-//[29]  CreateInputLayout
-//[30]  CreateVertexShader
-//[31]  CreateGeometryShader
-//[32]  CreateGeometryShaderWithStreamOutput
-//[33]  CreatePixelShader
-//[34]  CreateHullShader
-//[35]  CreateDomainShader
-//[36]  CreateComputeShader
-//[37]  CreateClassLinkage
-//[38]  CreateBlendState
-//[39]  CreateDepthStencilState
-//[40]  CreateRasterizerState
-//[41]  CreateSamplerState
-//[42]  CreateQuery
-//[43]  CreatePredicate
-//[44]  CreateCounter
-//[45]  CreateDeferredContext
-//[46]  OpenSharedResource
-//[47]  CheckFormatSupport
-//[48]  CheckMultisampleQualityLevels
-//[49]  CheckCounterInfo
-//[50]  CheckCounter
-//[51]  CheckFeatureSupport
-//[52]  GetPrivateData
-//[53]  SetPrivateData
-//[54]  SetPrivateDataInterface
-//[55]  GetFeatureLevel
-//[56]  GetCreationFlags
-//[57]  GetDeviceRemovedReason
-//[58]  GetImmediateContext
-//[59]  SetExceptionMode
-//[60]  GetExceptionMode
-//[61]  QueryInterface
-//[62]  AddRef
-//[63]  Release
-//[64]  GetDevice
-//[65]  GetPrivateData
-//[66]  SetPrivateData
-//[67]  SetPrivateDataInterface
-//[68]  SetConstantBuffers
-//[69]  SetShaderResources
-//[70]  SetShader
-//[71]  SetSamplers
-//[72]  SetShader
-//[73]  DrawIndexed
-//[74]  Draw
-//[75]  Map
-//[76]  Unmap
-//[77]  SetConstantBuffers
-//[78]  IASetInputLayout
-//[79]  IASetVertexBuffers
-//[80]  IASetIndexBuffer
-//[81]  DrawIndexedInstanced
-//[82]  DrawInstanced
-//[83]  SetConstantBuffers
-//[84]  SetShader
-//[85]  IASetPrimitiveTopology
-//[86]  SetShaderResources
-//[87]  SetSamplers
-//[88]  Begin
-//[89]  End
-//[90]  GetData
-//[91]  SetPredication
-//[92]  SetShaderResources
-//[93]  SetSamplers
-//[94]  OMSetRenderTargets
-//[95]  OMSetRenderTargetsAndUnorderedAccessViews
-//[96]  OMSetBlendState
-//[97]  OMSetDepthStencilState
-//[98]  SOSetTargets
-//[99]  DrawAuto
-//[100] DrawIndexedInstancedIndirect
-//[101] DrawInstancedIndirect
-//[102] Dispatch
-//[103] DispatchIndirect
-//[104] RSSetState
-//[105] RSSetViewports
-//[106] RSSetScissorRects
-//[107] CopySubresourceRegion
-//[108] CopyResource
-//[109] UpdateSubresource
-//[110] CopyStructureCount
-//[111] ClearRenderTargetView
-//[112] ClearUnorderedAccessViewUint
-//[113] ClearUnorderedAccessViewFloat
-//[114] ClearDepthStencilView
-//[115] GenerateMips
-//[116] SetResourceMinLOD
-//[117] GetResourceMinLOD
-//[118] ResolveSubresource
-//[119] ExecuteCommandList
-//[120] SetShaderResources
-//[121] SetShader
-//[122] SetSamplers
-//[123] SetConstantBuffers
-//[124] SetShaderResources
-//[125] SetShader
-//[126] SetSamplers
-//[127] SetConstantBuffers
-//[128] SetShaderResources
-//[129] CSSetUnorderedAccessViews
-//[130] SetShader
-//[131] SetSamplers
-//[132] SetConstantBuffers
-//[133] VSGetConstantBuffers
-//[134] PSGetShaderResources
-//[135] PSGetShader
-//[136] PSGetSamplers
-//[137] VSGetShader
-//[138] PSGetConstantBuffers
-//[139] IAGetInputLayout
-//[140] IAGetVertexBuffers
-//[141] IAGetIndexBuffer
-//[142] GSGetConstantBuffers
-//[143] GSGetShader
-//[144] IAGetPrimitiveTopology
-//[145] VSGetShaderResources
-//[146] VSGetSamplers
-//[147] GetPredication
-//[148] GSGetShaderResources
-//[149] GSGetSamplers
-//[150] OMGetRenderTargets
-//[151] OMGetRenderTargetsAndUnorderedAccessViews
-//[152] OMGetBlendState
-//[153] OMGetDepthStencilState
-//[154] SOGetTargets
-//[155] RSGetState
-//[156] RSGetViewports
-//[157] RSGetScissorRects
-//[158] HSGetShaderResources
-//[159] HSGetShader
-//[160] HSGetSamplers
-//[161] HSGetConstantBuffers
-//[162] DSGetShaderResources
-//[163] DSGetShader
-//[164] DSGetSamplers
-//[165] DSGetConstantBuffers
-//[166] CSGetShaderResources
-//[167] CSGetUnorderedAccessViews
-//[168] CSGetShader
-//[169] CSGetSamplers
-//[170] CSGetConstantBuffers
-//[171] ClearState
-//[172] Flush
-//[173] GetType
-//[174] GetContextFlags
-//[175] FinishCommandList
-//[176] CopySubresourceRegion1
-//[177] UpdateSubresource1
-//[178] DiscardResource
-//[179] DiscardView
-//[180] SetConstantBuffers1
-//[181] SetConstantBuffers1
-//[182] SetConstantBuffers1
-//[183] SetConstantBuffers1
-//[184] SetConstantBuffers1
-//[185] SetConstantBuffers1
-//[186] VSGetConstantBuffers1
-//[187] HSGetConstantBuffers1
-//[188] DSGetConstantBuffers1
-//[189] GSGetConstantBuffers1
-//[190] PSGetConstantBuffers1
-//[191] CSGetConstantBuffers1
-//[192] SwapDeviceContextState
-//[193] ClearView
-//[194] DiscardView1
-//[195] UpdateTileMappings
-//[196] CopyTileMappings
-//[197] CopyTiles
-//[198] UpdateTiles
-//[199] ResizeTilePool
-//[200] TiledResourceBarrier
-//[201] IsAnnotationEnabled
-//[202] SetMarkerInt
-//[203] BeginEventInt
-//[204] EndEvent
-//
-//D3D12 Methods Table :
-//[0] QueryInterface
-//[1]   AddRef
-//[2]   Release
-//[3]   GetPrivateData
-//[4]   SetPrivateData
-//[5]   SetPrivateDataInterface
-//[6]   SetName
-//[7]   GetNodeCount
-//[8]   CreateCommandQueue
-//[9]   CreateCommandAllocator
-//[10]  CreateGraphicsPipelineState
-//[11]  CreateComputePipelineState
-//[12]  CreateCommandList
-//[13]  CheckFeatureSupport
-//[14]  CreateDescriptorHeap
-//[15]  GetDescriptorHandleIncrementSize
-//[16]  CreateRootSignature
-//[17]  CreateConstantBufferView
-//[18]  CreateShaderResourceView
-//[19]  CreateUnorderedAccessView
-//[20]  CreateRenderTargetView
-//[21]  CreateDepthStencilView
-//[22]  CreateSampler
-//[23]  CopyDescriptors
-//[24]  CopyDescriptorsSimple
-//[25]  GetResourceAllocationInfo
-//[26]  GetCustomHeapProperties
-//[27]  CreateCommittedResource
-//[28]  CreateHeap
-//[29]  CreatePlacedResource
-//[30]  CreateReservedResource
-//[31]  CreateSharedHandle
-//[32]  OpenSharedHandle
-//[33]  OpenSharedHandleByName
-//[34]  MakeResident
-//[35]  Evict
-//[36]  CreateFence
-//[37]  GetDeviceRemovedReason
-//[38]  GetCopyableFootprints
-//[39]  CreateQueryHeap
-//[40]  SetStablePowerState
-//[41]  CreateCommandSignature
-//[42]  GetResourceTiling
-//[43]  GetAdapterLuid
-//[44]  QueryInterface
-//[45]  AddRef
-//[46]  Release
-//[47]  GetPrivateData
-//[48]  SetPrivateData
-//[49]  SetPrivateDataInterface
-//[50]  SetName
-//[51]  GetDevice
-//[52]  UpdateTileMappings
-//[53]  CopyTileMappings
-//[54]  ExecuteCommandLists
-//[55]  SetMarker
-//[56]  BeginEvent
-//[57]  EndEvent
-//[58]  Signal
-//[59]  Wait
-//[60]  GetTimestampFrequency
-//[61]  GetClockCalibration
-//[62]  GetDesc
-//[63]  QueryInterface
-//[64]  AddRef
-//[65]  Release
-//[66]  GetPrivateData
-//[67]  SetPrivateData
-//[68]  SetPrivateDataInterface
-//[69]  SetName
-//[70]  GetDevice
-//[71]  Reset
-//[72]  QueryInterface
-//[73]  AddRef
-//[74]  Release
-//[75]  GetPrivateData
-//[76]  SetPrivateData
-//[77]  SetPrivateDataInterface
-//[78]  SetName
-//[79]  GetDevice
-//[80]  GetType
-//[81]  Close
-//[82]  Reset
-//[83]  ClearState
-//[84]  DrawInstanced
-//[85]  DrawIndexedInstanced
-//[86]  Dispatch
-//[87]  CopyBufferRegion
-//[88]  CopyTextureRegion
-//[89]  CopyResource
-//[90]  CopyTiles
-//[91]  ResolveSubresource
-//[92]  IASetPrimitiveTopology
-//[93]  RSSetViewports
-//[94]  RSSetScissorRects
-//[95]  OMSetBlendFactor
-//[96]  OMSetStencilRef
-//[97]  SetPipelineState
-//[98]  ResourceBarrier
-//[99]  ExecuteBundle
-//[100] SetDescriptorHeaps
-//[101] SetComputeRootSignature
-//[102] SetGraphicsRootSignature
-//[103] SetComputeRootDescriptorTable
-//[104] SetGraphicsRootDescriptorTable
-//[105] SetComputeRoot32BitConstant
-//[106] SetGraphicsRoot32BitConstant
-//[107] SetComputeRoot32BitConstants
-//[108] SetGraphicsRoot32BitConstants
-//[109] SetComputeRootConstantBufferView
-//[110] SetGraphicsRootConstantBufferView
-//[111] SetComputeRootShaderResourceView
-//[112] SetGraphicsRootShaderResourceView
-//[113] SetComputeRootUnorderedAccessView
-//[114] SetGraphicsRootUnorderedAccessView
-//[115] IASetIndexBuffer
-//[116] IASetVertexBuffers
-//[117] SOSetTargets
-//[118] OMSetRenderTargets
-//[119] ClearDepthStencilView
-//[120] ClearRenderTargetView
-//[121] ClearUnorderedAccessViewUint
-//[122] ClearUnorderedAccessViewFloat
-//[123] DiscardResource
-//[124] BeginQuery
-//[125] EndQuery
-//[126] ResolveQueryData
-//[127] SetPredication
-//[128] SetMarker
-//[129] BeginEvent
-//[130] EndEvent
-//[131] ExecuteIndirect
-//[132] QueryInterface
-//[133] AddRef
-//[134] Release
-//[135] SetPrivateData
-//[136] SetPrivateDataInterface
-//[137] GetPrivateData
-//[138] GetParent
-//[139] GetDevice
-//[140] Present
-//[141] GetBuffer
-//[142] SetFullscreenState
-//[143] GetFullscreenState
-//[144] GetDesc
-//[145] ResizeBuffers
-//[146] ResizeTarget
-//[147] GetContainingOutput
-//[148] GetFrameStatistics
-//[149] GetLastPresentCount
-//
-//OpenGL Methods Table :
-//[0]   glAccum
-//[1]   glAlphaFunc
-//[2]   glAreTexturesResident
-//[3]   glArrayElement
-//[4]   glBegin
-//[5]   glBindTexture
-//[6]   glBitmap
-//[7]   glBlendFunc
-//[8]   glCallList
-//[9]   glCallLists
-//[10]  glClear
-//[11]  glClearAccum
-//[12]  glClearColor
-//[13]  glClearDepth
-//[14]  glClearIndex
-//[15]  glClearStencil
-//[16]  glClipPlane
-//[17]  glColor3b
-//[18]  glColor3bv
-//[19]  glColor3d
-//[20]  glColor3dv
-//[21]  glColor3f
-//[22]  glColor3fv
-//[23]  glColor3i
-//[24]  glColor3iv
-//[25]  glColor3s
-//[26]  glColor3sv
-//[27]  glColor3ub
-//[28]  glColor3ubv
-//[29]  glColor3ui
-//[30]  glColor3uiv
-//[31]  glColor3us
-//[32]  glColor3usv
-//[33]  glColor4b
-//[34]  glColor4bv
-//[35]  glColor4d
-//[36]  glColor4dv
-//[37]  glColor4f
-//[38]  glColor4fv
-//[39]  glColor4i
-//[40]  glColor4iv
-//[41]  glColor4s
-//[42]  glColor4sv
-//[43]  glColor4ub
-//[44]  glColor4ubv
-//[45]  glColor4ui
-//[46]  glColor4uiv
-//[47]  glColor4us
-//[48]  glColor4usv
-//[49]  glColorMask
-//[50]  glColorMaterial
-//[51]  glColorPointer
-//[52]  glCopyPixels
-//[53]  glCopyTexImage1D
-//[54]  glCopyTexImage2D
-//[55]  glCopyTexSubImage1D
-//[56]  glCopyTexSubImage2D
-//[57]  glCullFaceglCullFace
-//[58]  glDeleteLists
-//[59]  glDeleteTextures
-//[60]  glDepthFunc
-//[61]  glDepthMask
-//[62]  glDepthRange
-//[63]  glDisable
-//[64]  glDisableClientState
-//[65]  glDrawArrays
-//[66]  glDrawBuffer
-//[67]  glDrawElements
-//[68]  glDrawPixels
-//[69]  glEdgeFlag
-//[70]  glEdgeFlagPointer
-//[71]  glEdgeFlagv
-//[72]  glEnable
-//[73]  glEnableClientState
-//[74]  glEnd
-//[75]  glEndList
-//[76]  glEvalCoord1d
-//[77]  glEvalCoord1dv
-//[78]  glEvalCoord1f
-//[79]  glEvalCoord1fv
-//[80]  glEvalCoord2d
-//[81]  glEvalCoord2dv
-//[82]  glEvalCoord2f
-//[83]  glEvalCoord2fv
-//[84]  glEvalMesh1
-//[85]  glEvalMesh2
-//[86]  glEvalPoint1
-//[87]  glEvalPoint2
-//[88]  glFeedbackBuffer
-//[89]  glFinish
-//[90]  glFlush
-//[91]  glFogf
-//[92]  glFogfv
-//[93]  glFogi
-//[94]  glFogiv
-//[95]  glFrontFace
-//[96]  glFrustum
-//[97]  glGenLists
-//[98]  glGenTextures
-//[99]  glGetBooleanv
-//[100] glGetClipPlane
-//[101] glGetDoublev
-//[102] glGetError
-//[103] glGetFloatv
-//[104] glGetIntegerv
-//[105] glGetLightfv
-//[106] glGetLightiv
-//[107] glGetMapdv
-//[108] glGetMapfv
-//[109] glGetMapiv
-//[110] glGetMaterialfv
-//[111] glGetMaterialiv
-//[112] glGetPixelMapfv
-//[113] glGetPixelMapuiv
-//[114] glGetPixelMapusv
-//[115] glGetPointerv
-//[116] glGetPolygonStipple
-//[117] glGetString
-//[118] glGetTexEnvfv
-//[119] glGetTexEnviv
-//[120] glGetTexGendv
-//[121] glGetTexGenfv
-//[122] glGetTexGeniv
-//[123] glGetTexImage
-//[124] glGetTexLevelParameterfv
-//[125] glGetTexLevelParameteriv
-//[126] glGetTexParameterfv
-//[127] glGetTexParameteriv
-//[128] glHint
-//[129] glIndexMask
-//[130] glIndexPointer
-//[131] glIndexd
-//[132] glIndexdv
-//[133] glIndexf
-//[134] glIndexfv
-//[135] glIndexi
-//[136] glIndexiv
-//[137] glIndexs
-//[138] glIndexsv
-//[139] glIndexub
-//[140] glIndexubv
-//[141] glInitNames
-//[142] glInterleavedArrays
-//[143] glIsEnabled
-//[144] glIsList
-//[145] glIsTexture
-//[146] glLightModelf
-//[147] glLightModelfv
-//[148] glLightModeli
-//[149] glLightModeliv
-//[150] glLightf
-//[151] glLightfv
-//[152] glLighti
-//[153] glLightiv
-//[154] glLineStipple
-//[155] glLineWidth
-//[156] glListBase
-//[157] glLoadIdentity
-//[158] glLoadMatrixd
-//[159] glLoadMatrixf
-//[160] glLoadName
-//[161] glLogicOp
-//[162] glMap1d
-//[163] glMap1f
-//[164] glMap2d
-//[165] glMap2f
-//[166] glMapGrid1d
-//[167] glMapGrid1f
-//[168] glMapGrid2d
-//[169] glMapGrid2f
-//[170] glMaterialf
-//[171] glMaterialfv
-//[172] glMateriali
-//[173] glMaterialiv
-//[174] glMatrixMode
-//[175] glMultMatrixd
-//[176] glMultMatrixf
-//[177] glNewList
-//[178] glNormal3b
-//[179] glNormal3bv
-//[180] glNormal3d
-//[181] glNormal3dv
-//[182] glNormal3f
-//[183] glNormal3fv
-//[184] glNormal3i
-//[185] glNormal3iv
-//[186] glNormal3s
-//[187] glNormal3sv
-//[188] glNormalPointer
-//[189] glOrtho
-//[190] glPassThrough
-//[191] glPixelMapfv
-//[192] glPixelMapuiv
-//[193] glPixelMapusv
-//[194] glPixelStoref
-//[195] glPixelStorei
-//[196] glPixelTransferf
-//[197] glPixelTransferi
-//[198] glPixelZoom
-//[199] glPointSize
-//[200] glPolygonMode
-//[201] glPolygonOffset
-//[202] glPolygonStipple
-//[203] glPopAttrib
-//[204] glPopClientAttrib
-//[205] glPopMatrix
-//[206] glPopName
-//[207] glPrioritizeTextures
-//[208] glPushAttrib
-//[209] glPushClientAttrib
-//[210] glPushMatrix
-//[211] glPushName
-//[212] glRasterPos2d
-//[213] glRasterPos2dv
-//[214] glRasterPos2f
-//[215] glRasterPos2fv
-//[216] glRasterPos2i
-//[217] glRasterPos2iv
-//[218] glRasterPos2s
-//[219] glRasterPos2sv
-//[220] glRasterPos3d
-//[221] glRasterPos3dv
-//[222] glRasterPos3f
-//[223] glRasterPos3fv
-//[224] glRasterPos3i
-//[225] glRasterPos3iv
-//[226] glRasterPos3s
-//[227] glRasterPos3sv
-//[228] glRasterPos4d
-//[229] glRasterPos4dv
-//[230] glRasterPos4f
-//[231] glRasterPos4fv
-//[232] glRasterPos4i
-//[233] glRasterPos4iv
-//[234] glRasterPos4s
-//[235] glRasterPos4sv
-//[236] glReadBuffer
-//[237] glReadPixels
-//[238] glRectd
-//[239] glRectdv
-//[240] glRectf
-//[241] glRectfv
-//[242] glRecti
-//[243] glRectiv
-//[244] glRects
-//[245] glRectsv
-//[246] glRenderMode
-//[247] glRotated
-//[248] glRotatef
-//[249] glScaled
-//[250] glScalef
-//[251] glScissor
-//[252] glSelectBuffer
-//[253] glShadeModel
-//[254] glStencilFunc
-//[255] glStencilMask
-//[256] glStencilOp
-//[257] glTexCoord1d
-//[258] glTexCoord1dv
-//[259] glTexCoord1f
-//[260] glTexCoord1fv
-//[261] glTexCoord1i
-//[262] glTexCoord1iv
-//[263] glTexCoord1s
-//[264] glTexCoord1sv
-//[265] glTexCoord2d
-//[266] glTexCoord2dv
-//[267] glTexCoord2f
-//[268] glTexCoord2fv
-//[269] glTexCoord2i
-//[270] glTexCoord2iv
-//[271] glTexCoord2s
-//[272] glTexCoord2sv
-//[273] glTexCoord3d
-//[274] glTexCoord3dv
-//[275] glTexCoord3f
-//[276] glTexCoord3fv
-//[277] glTexCoord3i
-//[278] glTexCoord3iv
-//[279] glTexCoord3s
-//[280] glTexCoord3sv
-//[281] glTexCoord4d
-//[282] glTexCoord4dv
-//[283] glTexCoord4f
-//[284] glTexCoord4fv
-//[285] glTexCoord4i
-//[286] glTexCoord4iv
-//[287] glTexCoord4s
-//[288] glTexCoord4sv
-//[289] glTexCoordPointer
-//[290] glTexEnvf
-//[291] glTexEnvfv
-//[292] glTexEnvi
-//[293] glTexEnviv
-//[294] glTexGend
-//[295] glTexGendv
-//[296] glTexGenf
-//[297] glTexGenfv
-//[298] glTexGeni
-//[299] glTexGeniv
-//[300] glTexImage1D
-//[301] glTexImage2D
-//[302] glTexParameterf
-//[303] glTexParameterfv
-//[304] glTexParameteri
-//[305] glTexParameteriv
-//[306] glTexSubImage1D
-//[307] glTexSubImage2D
-//[308] glTranslated
-//[309] glTranslatef
-//[310] glVertex2d
-//[311] glVertex2dv
-//[312] glVertex2f
-//[313] glVertex2fv
-//[314] glVertex2i
-//[315] glVertex2iv
-//[316] glVertex2s
-//[317] glVertex2sv
-//[318] glVertex3d
-//[319] glVertex3dv
-//[320] glVertex3f
-//[321] glVertex3fv
-//[322] glVertex3i
-//[323] glVertex3iv
-//[324] glVertex3s
-//[325] glVertex3sv
-//[326] glVertex4d
-//[327] glVertex4dv
-//[328] glVertex4f
-//[329] glVertex4fv
-//[330] glVertex4i
-//[331] glVertex4iv
-//[332] glVertex4s
-//[333] glVertex4sv
-//[334] glVertexPointer
-//[335] glViewport
-//
-//Vulkan Methods Table :
-//[0] vkCreateInstance
-//[1]   vkDestroyInstance
-//[2]   vkEnumeratePhysicalDevices
-//[3]   vkGetPhysicalDeviceFeatures
-//[4]   vkGetPhysicalDeviceFormatProperties
-//[5]   vkGetPhysicalDeviceImageFormatProperties
-//[6]   vkGetPhysicalDeviceProperties
-//[7]   vkGetPhysicalDeviceQueueFamilyProperties
-//[8]   vkGetPhysicalDeviceMemoryProperties
-//[9]   vkGetInstanceProcAddr
-//[10]  vkGetDeviceProcAddr
-//[11]  vkCreateDevice
-//[12]  vkDestroyDevice
-//[13]  vkEnumerateInstanceExtensionProperties
-//[14]  vkEnumerateDeviceExtensionProperties
-//[15]  vkEnumerateDeviceLayerProperties
-//[16]  vkGetDeviceQueue
-//[17]  vkQueueSubmit
-//[18]  vkQueueWaitIdle
-//[19]  vkDeviceWaitIdle
-//[20]  vkAllocateMemory
-//[21]  vkFreeMemory
-//[22]  vkMapMemory
-//[23]  vkUnmapMemory
-//[24]  vkFlushMappedMemoryRanges
-//[25]  vkInvalidateMappedMemoryRanges
-//[26]  vkGetDeviceMemoryCommitment
-//[27]  vkBindBufferMemory
-//[28]  vkBindImageMemory
-//[29]  vkGetBufferMemoryRequirements
-//[30]  vkGetImageMemoryRequirements
-//[31]  vkGetImageSparseMemoryRequirements
-//[32]  vkGetPhysicalDeviceSparseImageFormatProperties
-//[33]  vkQueueBindSparse
-//[34]  vkCreateFence
-//[35]  vkDestroyFence
-//[36]  vkResetFences
-//[37]  vkGetFenceStatus
-//[38]  vkWaitForFences
-//[39]  vkCreateSemaphore
-//[40]  vkDestroySemaphore
-//[41]  vkCreateEvent
-//[42]  vkDestroyEvent
-//[43]  vkGetEventStatus
-//[44]  vkSetEvent
-//[45]  vkResetEvent
-//[46]  vkCreateQueryPool
-//[47]  vkDestroyQueryPool
-//[48]  vkGetQueryPoolResults
-//[49]  vkCreateBuffer
-//[50]  vkDestroyBuffer
-//[51]  vkCreateBufferView
-//[52]  vkDestroyBufferView
-//[53]  vkCreateImage
-//[54]  vkDestroyImage
-//[55]  vkGetImageSubresourceLayout
-//[56]  vkCreateImageView
-//[57]  vkDestroyImageView
-//[58]  vkCreateShaderModule
-//[59]  vkDestroyShaderModule
-//[60]  vkCreatePipelineCache
-//[61]  vkDestroyPipelineCache
-//[62]  vkGetPipelineCacheData
-//[63]  vkMergePipelineCaches
-//[64]  vkCreateGraphicsPipelines
-//[65]  vkCreateComputePipelines
-//[66]  vkDestroyPipeline
-//[67]  vkCreatePipelineLayout
-//[68]  vkDestroyPipelineLayout
-//[69]  vkCreateSampler
-//[70]  vkDestroySampler
-//[71]  vkCreateDescriptorSetLayout
-//[72]  vkDestroyDescriptorSetLayout
-//[73]  vkCreateDescriptorPool
-//[74]  vkDestroyDescriptorPool
-//[75]  vkResetDescriptorPool
-//[76]  vkAllocateDescriptorSets
-//[77]  vkFreeDescriptorSets
-//[78]  vkUpdateDescriptorSets
-//[79]  vkCreateFramebuffer
-//[80]  vkDestroyFramebuffer
-//[81]  vkCreateRenderPass
-//[82]  vkDestroyRenderPass
-//[83]  vkGetRenderAreaGranularity
-//[84]  vkCreateCommandPool
-//[85]  vkDestroyCommandPool
-//[86]  vkResetCommandPool
-//[87]  vkAllocateCommandBuffers
-//[88]  vkFreeCommandBuffers
-//[89]  vkBeginCommandBuffer
-//[90]  vkEndCommandBuffer
-//[91]  vkResetCommandBuffer
-//[92]  vkCmdBindPipeline
-//[93]  vkCmdSetViewport
-//[94]  vkCmdSetScissor
-//[95]  vkCmdSetLineWidth
-//[96]  vkCmdSetDepthBias
-//[97]  vkCmdSetBlendConstants
-//[98]  vkCmdSetDepthBounds
-//[99]  vkCmdSetStencilCompareMask
-//[100] vkCmdSetStencilWriteMask
-//[101] vkCmdSetStencilReference
-//[102] vkCmdBindDescriptorSets
-//[103] vkCmdBindIndexBuffer
-//[104] vkCmdBindVertexBuffers
-//[105] vkCmdDraw
-//[106] vkCmdDrawIndexed
-//[107] vkCmdDrawIndirect
-//[108] vkCmdDrawIndexedIndirect
-//[109] vkCmdDispatch
-//[110] vkCmdDispatchIndirect
-//[111] vkCmdCopyBuffer
-//[112] vkCmdCopyImage
-//[113] vkCmdBlitImage
-//[114] vkCmdCopyBufferToImage
-//[115] vkCmdCopyImageToBuffer
-//[116] vkCmdUpdateBuffer
-//[117] vkCmdFillBuffer
-//[118] vkCmdClearColorImage
-//[119] vkCmdClearDepthStencilImage
-//[120] vkCmdClearAttachments
-//[121] vkCmdResolveImage
-//[122] vkCmdSetEvent
-//[123] vkCmdResetEvent
-//[124] vkCmdWaitEvents
-//[125] vkCmdPipelineBarrier
-//[126] vkCmdBeginQuery
-//[127] vkCmdEndQuery
-//[128] vkCmdResetQueryPool
-//[129] vkCmdWriteTimestamp
-//[130] vkCmdCopyQueryPoolResults
-//[131] vkCmdPushConstants
-//[132] vkCmdBeginRenderPass
-//[133] vkCmdNextSubpass
-//[134] vkCmdEndRenderPass
-//[135] vkCmdExecuteCommands
+enum D3D9MT : int {
+	QueryInterface = 0,
+	AddRef = 1,
+	Release = 2,
+	TestCooperativeLevel = 3,
+	GetAvailableTextureMem = 4,
+	EvictManagedResources = 5,
+	GetDirect3D = 6,
+	GetDeviceCaps = 7,
+	GetDisplayMode = 8,
+	GetCreationParameters = 9,
+	SetCursorProperties = 10,
+	SetCursorPosition = 11,
+	ShowCursor = 12,
+	CreateAdditionalSwapChain = 13,
+	GetSwapChain = 14,
+	GetNumberOfSwapChains = 15,
+	Reset = 16,
+	Present = 17,
+	GetBackBuffer = 18,
+	GetRasterStatus = 19,
+	SetDialogBoxMode = 20,
+	SetGammaRamp = 21,
+	GetGammaRamp = 22,
+	CreateTexture = 23,
+	CreateVolumeTexture = 24,
+	CreateCubeTexture = 25,
+	CreateVertexBuffer = 26,
+	CreateIndexBuffer = 27,
+	CreateRenderTarget = 28,
+	CreateDepthStencilSurface = 29,
+	UpdateSurface = 30,
+	UpdateTexture = 31,
+	GetRenderTargetData = 32,
+	GetFrontBufferData = 33,
+	StretchRect = 34,
+	ColorFill = 35,
+	CreateOffscreenPlainSurface = 36,
+	SetRenderTarget = 37,
+	GetRenderTarget = 38,
+	SetDepthStencilSurface = 39,
+	GetDepthStencilSurface = 40,
+	BeginScene = 41,
+	EndScene = 42,
+	Clear = 43,
+	SetTransform = 44,
+	GetTransform = 45,
+	MultiplyTransform = 46,
+	SetViewport = 47,
+	GetViewport = 48,
+	SetMaterial = 49,
+	GetMaterial = 50,
+	SetLight = 51,
+	GetLight = 52,
+	LightEnable = 53,
+	GetLightEnable = 54,
+	SetClipPlane = 55,
+	GetClipPlane = 56,
+	SetRenderState = 57,
+	GetRenderState = 58,
+	CreateStateBlock = 59,
+	BeginStateBlock = 60,
+	EndStateBlock = 61,
+	SetClipStatus = 62,
+	GetClipStatus = 63,
+	GetTexture = 64,
+	SetTexture = 65,
+	GetTextureStageState = 66,
+	SetTextureStageState = 67,
+	GetSamplerState = 68,
+	SetSamplerState = 69,
+	ValidateDevice = 70,
+	SetPaletteEntries = 71,
+	GetPaletteEntries = 72,
+	SetCurrentTexturePalette = 73,
+	GetCurrentTexturePalette = 74,
+	SetScissorRect = 75,
+	GetScissorRect = 76,
+	SetSoftwareVertexProcessing = 77,
+	GetSoftwareVertexProcessing = 78,
+	SetNPatchMode = 79,
+	GetNPatchMode = 80,
+	DrawPrimitive = 81,
+	DrawIndexedPrimitive = 82,
+	DrawPrimitiveUP = 83,
+	DrawIndexedPrimitiveUP = 84,
+	ProcessVertices = 85,
+	CreateVertexDeclaration = 86,
+	SetVertexDeclaration = 87,
+	GetVertexDeclaration = 88,
+	SetFVF = 89,
+	GetFVF = 90,
+	CreateVertexShader = 91,
+	SetVertexShader = 92,
+	GetVertexShader = 93,
+	SetVertexShaderConstantF = 94,
+	GetVertexShaderConstantF = 95,
+	SetVertexShaderConstantI = 96,
+	GetVertexShaderConstantI = 97,
+	SetVertexShaderConstantB = 98,
+	GetVertexShaderConstantB = 99,
+	SetStreamSource = 100,
+	GetStreamSource = 101,
+	SetStreamSourceFreq = 102,
+	GetStreamSourceFreq = 103,
+	SetIndices = 104,
+	GetIndices = 105,
+	CreatePixelShader = 106,
+	SetPixelShader = 107,
+	GetPixelShader = 108,
+	SetPixelShaderConstantF = 109,
+	GetPixelShaderConstantF = 110,
+	SetPixelShaderConstantI = 111,
+	GetPixelShaderConstantI = 112,
+	SetPixelShaderConstantB = 113,
+	GetPixelShaderConstantB = 114,
+	DrawRectPatch = 115,
+	DrawTriPatch = 116,
+	DeletePatch = 117,
+	CreateQuery = 118,
+};
+enum D3D10MT : int {
+	QueryInterface = 0,
+	AddRef = 1,
+	Release = 2,
+	SetPrivateData = 3,
+	SetPrivateDataInterface = 4,
+	GetPrivateData = 5,
+	GetParent = 6,
+	GetDevice = 7,
+	Present = 8,
+	GetBuffer = 9,
+	SetFullscreenState = 10,
+	GetFullscreenState = 11,
+	GetDesc = 12,
+	ResizeBuffers = 13,
+	ResizeTarget = 14,
+	GetContainingOutput = 15,
+	GetFrameStatistics = 16,
+	GetLastPresentCount = 17,
+	QueryInterface = 18,
+	AddRef = 19,
+	Release = 20,
+	VSSetConstantBuffers = 21,
+	PSSetShaderResources = 22,
+	PSSetShader = 23,
+	PSSetSamplers = 24,
+	VSSetShader = 25,
+	DrawIndexed = 26,
+	Draw = 27,
+	PSSetConstantBuffers = 28,
+	IASetInputLayout = 29,
+	IASetVertexBuffers = 30,
+	IASetIndexBuffer = 31,
+	DrawIndexedInstanced = 32,
+	DrawInstanced = 33,
+	GSSetConstantBuffers = 34,
+	GSSetShader = 35,
+	IASetPrimitiveTopology = 36,
+	VSSetShaderResources = 37,
+	VSSetSamplers = 38,
+	SetPredication = 39,
+	GSSetShaderResources = 40,
+	GSSetSamplers = 41,
+	OMSetRenderTargets = 42,
+	OMSetBlendState = 43,
+	OMSetDepthStencilState = 44,
+	SOSetTargets = 45,
+	DrawAuto = 46,
+	RSSetState = 47,
+	RSSetViewports = 48,
+	RSSetScissorRects = 49,
+	CopySubresourceRegion = 50,
+	CopyResource = 51,
+	UpdateSubresource = 52,
+	ClearRenderTargetView = 53,
+	ClearDepthStencilView = 54,
+	GenerateMips = 55,
+	ResolveSubresource = 56,
+	VSGetConstantBuffers = 57,
+	PSGetShaderResources = 58,
+	PSGetShader = 59,
+	PSGetSamplers = 60,
+	VSGetShader = 61,
+	PSGetConstantBuffers = 62,
+	IAGetInputLayout = 63,
+	IAGetVertexBuffers = 64,
+	IAGetIndexBuffer = 65,
+	GSGetConstantBuffers = 66,
+	GSGetShader = 67,
+	IAGetPrimitiveTopology = 68,
+	VSGetShaderResources = 69,
+	VSGetSamplers = 70,
+	GetPredication = 71,
+	GSGetShaderResources = 72,
+	GSGetSamplers = 73,
+	OMGetRenderTargets = 74,
+	OMGetBlendState = 75,
+	OMGetDepthStencilState = 76,
+	SOGetTargets = 77,
+	RSGetState = 78,
+	RSGetViewports = 79,
+	RSGetScissorRects = 80,
+	GetDeviceRemovedReason = 81,
+	SetExceptionMode = 82,
+	GetExceptionMode = 83,
+	GetPrivateData = 84,
+	SetPrivateData = 85,
+	SetPrivateDataInterface = 86,
+	ClearState = 87,
+	Flush = 88,
+	CreateBuffer = 89,
+	CreateTexture1D = 90,
+	CreateTexture2D = 91,
+	CreateTexture3D = 92,
+	CreateShaderResourceView = 93,
+	CreateRenderTargetView = 94,
+	CreateDepthStencilView = 95,
+	CreateInputLayout = 96,
+	CreateVertexShader = 97,
+	CreateGeometryShader = 98,
+	CreateGemoetryShaderWithStreamOutput = 99,
+	CreatePixelShader = 100,
+	CreateBlendState = 101,
+	CreateDepthStencilState = 102,
+	CreateRasterizerState = 103,
+	CreateSamplerState = 104,
+	CreateQuery = 105,
+	CreatePredicate = 106,
+	CreateCounter = 107,
+	CheckFormatSupport = 108,
+	CheckMultisampleQualityLevels = 109,
+	CheckCounterInfo = 110,
+	CheckCounter = 111,
+	GetCreationFlags = 112,
+	OpenSharedResource = 113,
+	SetTextFilterSize = 114,
+	GetTextFilterSize = 115,
+};
+enum D3D11MT : int {
+	QueryInterface = 0,
+	AddRef = 1,
+	Release = 2,
+	SetPrivateData = 3,
+	SetPrivateDataInterface = 4,
+	GetPrivateData = 5,
+	GetParent = 6,
+	GetDevice = 7,
+	Present = 8,
+	GetBuffer = 9,
+	SetFullscreenState = 10,
+	GetFullscreenState = 11,
+	GetDesc = 12,
+	ResizeBuffers = 13,
+	ResizeTarget = 14,
+	GetContainingOutput = 15,
+	GetFrameStatistics = 16,
+	GetLastPresentCount = 17,
+	QueryInterface = 18,
+	AddRef = 19,
+	Release = 20,
+	CreateBuffer = 21,
+	CreateTexture1D = 22,
+	CreateTexture2D = 23,
+	CreateTexture3D = 24,
+	CreateShaderResourceView = 25,
+	CreateUnorderedAccessView = 26,
+	CreateRenderTargetView = 27,
+	CreateDepthStencilView = 28,
+	CreateInputLayout = 29,
+	CreateVertexShader = 30,
+	CreateGeometryShader = 31,
+	CreateGeometryShaderWithStreamOutput = 32,
+	CreatePixelShader = 33,
+	CreateHullShader = 34,
+	CreateDomainShader = 35,
+	CreateComputeShader = 36,
+	CreateClassLinkage = 37,
+	CreateBlendState = 38,
+	CreateDepthStencilState = 39,
+	CreateRasterizerState = 40,
+	CreateSamplerState = 41,
+	CreateQuery = 42,
+	CreatePredicate = 43,
+	CreateCounter = 44,
+	CreateDeferredContext = 45,
+	OpenSharedResource = 46,
+	CheckFormatSupport = 47,
+	CheckMultisampleQualityLevels = 48,
+	CheckCounterInfo = 49,
+	CheckCounter = 50,
+	CheckFeatureSupport = 51,
+	GetPrivateData = 52,
+	SetPrivateData = 53,
+	SetPrivateDataInterface = 54,
+	GetFeatureLevel = 55,
+	GetCreationFlags = 56,
+	GetDeviceRemovedReason = 57,
+	GetImmediateContext = 58,
+	SetExceptionMode = 59,
+	GetExceptionMode = 60,
+	QueryInterface = 61,
+	AddRef = 62,
+	Release = 63,
+	GetDevice = 64,
+	GetPrivateData = 65,
+	SetPrivateData = 66,
+	SetPrivateDataInterface = 67,
+	SetConstantBuffers = 68,
+	SetShaderResources = 69,
+	SetShader = 70,
+	SetSamplers = 71,
+	SetShader = 72,
+	DrawIndexed = 73,
+	Draw = 74,
+	Map = 75,
+	Unmap = 76,
+	SetConstantBuffers = 77,
+	IASetInputLayout = 78,
+	IASetVertexBuffers = 79,
+	IASetIndexBuffer = 80,
+	DrawIndexedInstanced = 81,
+	DrawInstanced = 82,
+	SetConstantBuffers = 83,
+	SetShader = 84,
+	IASetPrimitiveTopology = 85,
+	SetShaderResources = 86,
+	SetSamplers = 87,
+	Begin = 88,
+	End = 89,
+	GetData = 90,
+	SetPredication = 91,
+	SetShaderResources = 92,
+	SetSamplers = 93,
+	OMSetRenderTargets = 94,
+	OMSetRenderTargetsAndUnorderedAccessViews = 95,
+	OMSetBlendState = 96,
+	OMSetDepthStencilState = 97,
+	SOSetTargets = 98,
+	DrawAuto = 99,
+	DrawIndexedInstancedIndirect = 100,
+	DrawInstancedIndirect = 101,
+	Dispatch = 102,
+	DispatchIndirect = 103,
+	RSSetState = 104,
+	RSSetViewports = 105,
+	RSSetScissorRects = 106,
+	CopySubresourceRegion = 107,
+	CopyResource = 108,
+	UpdateSubresource = 109,
+	CopyStructureCount = 110,
+	ClearRenderTargetView = 111,
+	ClearUnorderedAccessViewUint = 112,
+	ClearUnorderedAccessViewFloat = 113,
+	ClearDepthStencilView = 114,
+	GenerateMips = 115,
+	SetResourceMinLOD = 116,
+	GetResourceMinLOD = 117,
+	ResolveSubresource = 118,
+	ExecuteCommandList = 119,
+	SetShaderResources = 120,
+	SetShader = 121,
+	SetSamplers = 122,
+	SetConstantBuffers = 123,
+	SetShaderResources = 124,
+	SetShader = 125,
+	SetSamplers = 126,
+	SetConstantBuffers = 127,
+	SetShaderResources = 128,
+	CSSetUnorderedAccessViews = 129,
+	SetShader = 130,
+	SetSamplers = 131,
+	SetConstantBuffers = 132,
+	VSGetConstantBuffers = 133,
+	PSGetShaderResources = 134,
+	PSGetShader = 135,
+	PSGetSamplers = 136,
+	VSGetShader = 137,
+	PSGetConstantBuffers = 138,
+	IAGetInputLayout = 139,
+	IAGetVertexBuffers = 140,
+	IAGetIndexBuffer = 141,
+	GSGetConstantBuffers = 142,
+	GSGetShader = 143,
+	IAGetPrimitiveTopology = 144,
+	VSGetShaderResources = 145,
+	VSGetSamplers = 146,
+	GetPredication = 147,
+	GSGetShaderResources = 148,
+	GSGetSamplers = 149,
+	OMGetRenderTargets = 150,
+	OMGetRenderTargetsAndUnorderedAccessViews = 151,
+	OMGetBlendState = 152,
+	OMGetDepthStencilState = 153,
+	SOGetTargets = 154,
+	RSGetState = 155,
+	RSGetViewports = 156,
+	RSGetScissorRects = 157,
+	HSGetShaderResources = 158,
+	HSGetShader = 159,
+	HSGetSamplers = 160,
+	HSGetConstantBuffers = 161,
+	DSGetShaderResources = 162,
+	DSGetShader = 163,
+	DSGetSamplers = 164,
+	DSGetConstantBuffers = 165,
+	CSGetShaderResources = 166,
+	CSGetUnorderedAccessViews = 167,
+	CSGetShader = 168,
+	CSGetSamplers = 169,
+	CSGetConstantBuffers = 170,
+	ClearState = 171,
+	Flush = 172,
+	GetType = 173,
+	GetContextFlags = 174,
+	FinishCommandList = 175,
+	CopySubresourceRegion1 = 176,
+	UpdateSubresource1 = 177,
+	DiscardResource = 178,
+	DiscardView = 179,
+	SetConstantBuffers1 = 180,
+	SetConstantBuffers1 = 181,
+	SetConstantBuffers1 = 182,
+	SetConstantBuffers1 = 183,
+	SetConstantBuffers1 = 184,
+	SetConstantBuffers1 = 185,
+	VSGetConstantBuffers1 = 186,
+	HSGetConstantBuffers1 = 187,
+	DSGetConstantBuffers1 = 188,
+	GSGetConstantBuffers1 = 189,
+	PSGetConstantBuffers1 = 190,
+	CSGetConstantBuffers1 = 191,
+	SwapDeviceContextState = 192,
+	ClearView = 193,
+	DiscardView1 = 194,
+	UpdateTileMappings = 195,
+	CopyTileMappings = 196,
+	CopyTiles = 197,
+	UpdateTiles = 198,
+	ResizeTilePool = 199,
+	TiledResourceBarrier = 200,
+	IsAnnotationEnabled = 201,
+	SetMarkerInt = 202,
+	BeginEventInt = 203,
+	EndEvent = 204,
+};
+enum D3D12MT : int {
+	QueryInterface = 0,
+	AddRef = 1,
+	Release = 2,
+	GetPrivateData = 3,
+	SetPrivateData = 4,
+	SetPrivateDataInterface = 5,
+	SetName = 6,
+	GetNodeCount = 7,
+	CreateCommandQueue = 8,
+	CreateCommandAllocator = 9,
+	CreateGraphicsPipelineState = 10,
+	CreateComputePipelineState = 11,
+	CreateCommandList = 12,
+	CheckFeatureSupport = 13,
+	CreateDescriptorHeap = 14,
+	GetDescriptorHandleIncrementSize = 15,
+	CreateRootSignature = 16,
+	CreateConstantBufferView = 17,
+	CreateShaderResourceView = 18,
+	CreateUnorderedAccessView = 19,
+	CreateRenderTargetView = 20,
+	CreateDepthStencilView = 21,
+	CreateSampler = 22,
+	CopyDescriptors = 23,
+	CopyDescriptorsSimple = 24,
+	GetResourceAllocationInfo = 25,
+	GetCustomHeapProperties = 26,
+	CreateCommittedResource = 27,
+	CreateHeap = 28,
+	CreatePlacedResource = 29,
+	CreateReservedResource = 30,
+	CreateSharedHandle = 31,
+	OpenSharedHandle = 32,
+	OpenSharedHandleByName = 33,
+	MakeResident = 34,
+	Evict = 35,
+	CreateFence = 36,
+	GetDeviceRemovedReason = 37,
+	GetCopyableFootprints = 38,
+	CreateQueryHeap = 39,
+	SetStablePowerState = 40,
+	CreateCommandSignature = 41,
+	GetResourceTiling = 42,
+	GetAdapterLuid = 43,
+	QueryInterface = 44,
+	AddRef = 45,
+	Release = 46,
+	GetPrivateData = 47,
+	SetPrivateData = 48,
+	SetPrivateDataInterface = 49,
+	SetName = 50,
+	GetDevice = 51,
+	UpdateTileMappings = 52,
+	CopyTileMappings = 53,
+	ExecuteCommandLists = 54,
+	SetMarker = 55,
+	BeginEvent = 56,
+	EndEvent = 57,
+	Signal = 58,
+	Wait = 59,
+	GetTimestampFrequency = 60,
+	GetClockCalibration = 61,
+	GetDesc = 62,
+	QueryInterface = 63,
+	AddRef = 64,
+	Release = 65,
+	GetPrivateData = 66,
+	SetPrivateData = 67,
+	SetPrivateDataInterface = 68,
+	SetName = 69,
+	GetDevice = 70,
+	Reset = 71,
+	QueryInterface = 72,
+	AddRef = 73,
+	Release = 74,
+	GetPrivateData = 75,
+	SetPrivateData = 76,
+	SetPrivateDataInterface = 77,
+	SetName = 78,
+	GetDevice = 79,
+	GetType = 80,
+	Close = 81,
+	Reset = 82,
+	ClearState = 83,
+	DrawInstanced = 84,
+	DrawIndexedInstanced = 85,
+	Dispatch = 86,
+	CopyBufferRegion = 87,
+	CopyTextureRegion = 88,
+	CopyResource = 89,
+	CopyTiles = 90,
+	ResolveSubresource = 91,
+	IASetPrimitiveTopology = 92,
+	RSSetViewports = 93,
+	RSSetScissorRects = 94,
+	OMSetBlendFactor = 95,
+	OMSetStencilRef = 96,
+	SetPipelineState = 97,
+	ResourceBarrier = 98,
+	ExecuteBundle = 99,
+	SetDescriptorHeaps = 100,
+	SetComputeRootSignature = 101,
+	SetGraphicsRootSignature = 102,
+	SetComputeRootDescriptorTable = 103,
+	SetGraphicsRootDescriptorTable = 104,
+	SetComputeRoot32BitConstant = 105,
+	SetGraphicsRoot32BitConstant = 106,
+	SetComputeRoot32BitConstants = 107,
+	SetGraphicsRoot32BitConstants = 108,
+	SetComputeRootConstantBufferView = 109,
+	SetGraphicsRootConstantBufferView = 110,
+	SetComputeRootShaderResourceView = 111,
+	SetGraphicsRootShaderResourceView = 112,
+	SetComputeRootUnorderedAccessView = 113,
+	SetGraphicsRootUnorderedAccessView = 114,
+	IASetIndexBuffer = 115,
+	IASetVertexBuffers = 116,
+	SOSetTargets = 117,
+	OMSetRenderTargets = 118,
+	ClearDepthStencilView = 119,
+	ClearRenderTargetView = 120,
+	ClearUnorderedAccessViewUint = 121,
+	ClearUnorderedAccessViewFloat = 122,
+	DiscardResource = 123,
+	BeginQuery = 124,
+	EndQuery = 125,
+	ResolveQueryData = 126,
+	SetPredication = 127,
+	SetMarker = 128,
+	BeginEvent = 129,
+	EndEvent = 130,
+	ExecuteIndirect = 131,
+	QueryInterface = 132,
+	AddRef = 133,
+	Release = 134,
+	SetPrivateData = 135,
+	SetPrivateDataInterface = 136,
+	GetPrivateData = 137,
+	GetParent = 138,
+	GetDevice = 139,
+	Present = 140,
+	GetBuffer = 141,
+	SetFullscreenState = 142,
+	GetFullscreenState = 143,
+	GetDesc = 144,
+	ResizeBuffers = 145,
+	ResizeTarget = 146,
+	GetContainingOutput = 147,
+	GetFrameStatistics = 148,
+	GetLastPresentCount = 149,
+};
+enum GDIMT : int {
+};
+enum GDIPMT : int {
+};
+enum OPENGLMT : int {
+	glAccum = 0,
+	glAlphaFunc = 1,
+	glAreTexturesResident = 2,
+	glArrayElement = 3,
+	glBegin = 4,
+	glBindTexture = 5,
+	glBitmap = 6,
+	glBlendFunc = 7,
+	glCallList = 8,
+	glCallLists = 9,
+	glClear = 10,
+	glClearAccum = 11,
+	glClearColor = 12,
+	glClearDepth = 13,
+	glClearIndex = 14,
+	glClearStencil = 15,
+	glClipPlane = 16,
+	glColor3b = 17,
+	glColor3bv = 18,
+	glColor3d = 19,
+	glColor3dv = 20,
+	glColor3f = 21,
+	glColor3fv = 22,
+	glColor3i = 23,
+	glColor3iv = 24,
+	glColor3s = 25,
+	glColor3sv = 26,
+	glColor3ub = 27,
+	glColor3ubv = 28,
+	glColor3ui = 29,
+	glColor3uiv = 30,
+	glColor3us = 31,
+	glColor3usv = 32,
+	glColor4b = 33,
+	glColor4bv = 34,
+	glColor4d = 35,
+	glColor4dv = 36,
+	glColor4f = 37,
+	glColor4fv = 38,
+	glColor4i = 39,
+	glColor4iv = 40,
+	glColor4s = 41,
+	glColor4sv = 42,
+	glColor4ub = 43,
+	glColor4ubv = 44,
+	glColor4ui = 45,
+	glColor4uiv = 46,
+	glColor4us = 47,
+	glColor4usv = 48,
+	glColorMask = 49,
+	glColorMaterial = 50,
+	glColorPointer = 51,
+	glCopyPixels = 52,
+	glCopyTexImage1D = 53,
+	glCopyTexImage2D = 54,
+	glCopyTexSubImage1D = 55,
+	glCopyTexSubImage2D = 56,
+	glCullFaceglCullFace = 57,
+	glDeleteLists = 58,
+	glDeleteTextures = 59,
+	glDepthFunc = 60,
+	glDepthMask = 61,
+	glDepthRange = 62,
+	glDisable = 63,
+	glDisableClientState = 64,
+	glDrawArrays = 65,
+	glDrawBuffer = 66,
+	glDrawElements = 67,
+	glDrawPixels = 68,
+	glEdgeFlag = 69,
+	glEdgeFlagPointer = 70,
+	glEdgeFlagv = 71,
+	glEnable = 72,
+	glEnableClientState = 73,
+	glEnd = 74,
+	glEndList = 75,
+	glEvalCoord1d = 76,
+	glEvalCoord1dv = 77,
+	glEvalCoord1f = 78,
+	glEvalCoord1fv = 79,
+	glEvalCoord2d = 80,
+	glEvalCoord2dv = 81,
+	glEvalCoord2f = 82,
+	glEvalCoord2fv = 83,
+	glEvalMesh1 = 84,
+	glEvalMesh2 = 85,
+	glEvalPoint1 = 86,
+	glEvalPoint2 = 87,
+	glFeedbackBuffer = 88,
+	glFinish = 89,
+	glFlush = 90,
+	glFogf = 91,
+	glFogfv = 92,
+	glFogi = 93,
+	glFogiv = 94,
+	glFrontFace = 95,
+	glFrustum = 96,
+	glGenLists = 97,
+	glGenTextures = 98,
+	glGetBooleanv = 99,
+	glGetClipPlane = 100,
+	glGetDoublev = 101,
+	glGetError = 102,
+	glGetFloatv = 103,
+	glGetIntegerv = 104,
+	glGetLightfv = 105,
+	glGetLightiv = 106,
+	glGetMapdv = 107,
+	glGetMapfv = 108,
+	glGetMapiv = 109,
+	glGetMaterialfv = 110,
+	glGetMaterialiv = 111,
+	glGetPixelMapfv = 112,
+	glGetPixelMapuiv = 113,
+	glGetPixelMapusv = 114,
+	glGetPointerv = 115,
+	glGetPolygonStipple = 116,
+	glGetString = 117,
+	glGetTexEnvfv = 118,
+	glGetTexEnviv = 119,
+	glGetTexGendv = 120,
+	glGetTexGenfv = 121,
+	glGetTexGeniv = 122,
+	glGetTexImage = 123,
+	glGetTexLevelParameterfv = 124,
+	glGetTexLevelParameteriv = 125,
+	glGetTexParameterfv = 126,
+	glGetTexParameteriv = 127,
+	glHint = 128,
+	glIndexMask = 129,
+	glIndexPointer = 130,
+	glIndexd = 131,
+	glIndexdv = 132,
+	glIndexf = 133,
+	glIndexfv = 134,
+	glIndexi = 135,
+	glIndexiv = 136,
+	glIndexs = 137,
+	glIndexsv = 138,
+	glIndexub = 139,
+	glIndexubv = 140,
+	glInitNames = 141,
+	glInterleavedArrays = 142,
+	glIsEnabled = 143,
+	glIsList = 144,
+	glIsTexture = 145,
+	glLightModelf = 146,
+	glLightModelfv = 147,
+	glLightModeli = 148,
+	glLightModeliv = 149,
+	glLightf = 150,
+	glLightfv = 151,
+	glLighti = 152,
+	glLightiv = 153,
+	glLineStipple = 154,
+	glLineWidth = 155,
+	glListBase = 156,
+	glLoadIdentity = 157,
+	glLoadMatrixd = 158,
+	glLoadMatrixf = 159,
+	glLoadName = 160,
+	glLogicOp = 161,
+	glMap1d = 162,
+	glMap1f = 163,
+	glMap2d = 164,
+	glMap2f = 165,
+	glMapGrid1d = 166,
+	glMapGrid1f = 167,
+	glMapGrid2d = 168,
+	glMapGrid2f = 169,
+	glMaterialf = 170,
+	glMaterialfv = 171,
+	glMateriali = 172,
+	glMaterialiv = 173,
+	glMatrixMode = 174,
+	glMultMatrixd = 175,
+	glMultMatrixf = 176,
+	glNewList = 177,
+	glNormal3b = 178,
+	glNormal3bv = 179,
+	glNormal3d = 180,
+	glNormal3dv = 181,
+	glNormal3f = 182,
+	glNormal3fv = 183,
+	glNormal3i = 184,
+	glNormal3iv = 185,
+	glNormal3s = 186,
+	glNormal3sv = 187,
+	glNormalPointer = 188,
+	glOrtho = 189,
+	glPassThrough = 190,
+	glPixelMapfv = 191,
+	glPixelMapuiv = 192,
+	glPixelMapusv = 193,
+	glPixelStoref = 194,
+	glPixelStorei = 195,
+	glPixelTransferf = 196,
+	glPixelTransferi = 197,
+	glPixelZoom = 198,
+	glPointSize = 199,
+	glPolygonMode = 200,
+	glPolygonOffset = 201,
+	glPolygonStipple = 202,
+	glPopAttrib = 203,
+	glPopClientAttrib = 204,
+	glPopMatrix = 205,
+	glPopName = 206,
+	glPrioritizeTextures = 207,
+	glPushAttrib = 208,
+	glPushClientAttrib = 209,
+	glPushMatrix = 210,
+	glPushName = 211,
+	glRasterPos2d = 212,
+	glRasterPos2dv = 213,
+	glRasterPos2f = 214,
+	glRasterPos2fv = 215,
+	glRasterPos2i = 216,
+	glRasterPos2iv = 217,
+	glRasterPos2s = 218,
+	glRasterPos2sv = 219,
+	glRasterPos3d = 220,
+	glRasterPos3dv = 221,
+	glRasterPos3f = 222,
+	glRasterPos3fv = 223,
+	glRasterPos3i = 224,
+	glRasterPos3iv = 225,
+	glRasterPos3s = 226,
+	glRasterPos3sv = 227,
+	glRasterPos4d = 228,
+	glRasterPos4dv = 229,
+	glRasterPos4f = 230,
+	glRasterPos4fv = 231,
+	glRasterPos4i = 232,
+	glRasterPos4iv = 233,
+	glRasterPos4s = 234,
+	glRasterPos4sv = 235,
+	glReadBuffer = 236,
+	glReadPixels = 237,
+	glRectd = 238,
+	glRectdv = 239,
+	glRectf = 240,
+	glRectfv = 241,
+	glRecti = 242,
+	glRectiv = 243,
+	glRects = 244,
+	glRectsv = 245,
+	glRenderMode = 246,
+	glRotated = 247,
+	glRotatef = 248,
+	glScaled = 249,
+	glScalef = 250,
+	glScissor = 251,
+	glSelectBuffer = 252,
+	glShadeModel = 253,
+	glStencilFunc = 254,
+	glStencilMask = 255,
+	glStencilOp = 256,
+	glTexCoord1d = 257,
+	glTexCoord1dv = 258,
+	glTexCoord1f = 259,
+	glTexCoord1fv = 260,
+	glTexCoord1i = 261,
+	glTexCoord1iv = 262,
+	glTexCoord1s = 263,
+	glTexCoord1sv = 264,
+	glTexCoord2d = 265,
+	glTexCoord2dv = 266,
+	glTexCoord2f = 267,
+	glTexCoord2fv = 268,
+	glTexCoord2i = 269,
+	glTexCoord2iv = 270,
+	glTexCoord2s = 271,
+	glTexCoord2sv = 272,
+	glTexCoord3d = 273,
+	glTexCoord3dv = 274,
+	glTexCoord3f = 275,
+	glTexCoord3fv = 276,
+	glTexCoord3i = 277,
+	glTexCoord3iv = 278,
+	glTexCoord3s = 279,
+	glTexCoord3sv = 280,
+	glTexCoord4d = 281,
+	glTexCoord4dv = 282,
+	glTexCoord4f = 283,
+	glTexCoord4fv = 284,
+	glTexCoord4i = 285,
+	glTexCoord4iv = 286,
+	glTexCoord4s = 287,
+	glTexCoord4sv = 288,
+	glTexCoordPointer = 289,
+	glTexEnvf = 290,
+	glTexEnvfv = 291,
+	glTexEnvi = 292,
+	glTexEnviv = 293,
+	glTexGend = 294,
+	glTexGendv = 295,
+	glTexGenf = 296,
+	glTexGenfv = 297,
+	glTexGeni = 298,
+	glTexGeniv = 299,
+	glTexImage1D = 300,
+	glTexImage2D = 301,
+	glTexParameterf = 302,
+	glTexParameterfv = 303,
+	glTexParameteri = 304,
+	glTexParameteriv = 305,
+	glTexSubImage1D = 306,
+	glTexSubImage2D = 307,
+	glTranslated = 308,
+	glTranslatef = 309,
+	glVertex2d = 310,
+	glVertex2dv = 311,
+	glVertex2f = 312,
+	glVertex2fv = 313,
+	glVertex2i = 314,
+	glVertex2iv = 315,
+	glVertex2s = 316,
+	glVertex2sv = 317,
+	glVertex3d = 318,
+	glVertex3dv = 319,
+	glVertex3f = 320,
+	glVertex3fv = 321,
+	glVertex3i = 322,
+	glVertex3iv = 323,
+	glVertex3s = 324,
+	glVertex3sv = 325,
+	glVertex4d = 326,
+	glVertex4dv = 327,
+	glVertex4f = 328,
+	glVertex4fv = 329,
+	glVertex4i = 330,
+	glVertex4iv = 331,
+	glVertex4s = 332,
+	glVertex4sv = 333,
+	glVertexPointer = 334,
+	glViewport = 335,
+};
+enum VULKANMT : int {
+	vkCreateInstance = 0,
+	vkDestroyInstance = 1,
+	vkEnumeratePhysicalDevices = 2,
+	vkGetPhysicalDeviceFeatures = 3,
+	vkGetPhysicalDeviceFormatProperties = 4,
+	vkGetPhysicalDeviceImageFormatProperties = 5,
+	vkGetPhysicalDeviceProperties = 6,
+	vkGetPhysicalDeviceQueueFamilyProperties = 7,
+	vkGetPhysicalDeviceMemoryProperties = 8,
+	vkGetInstanceProcAddr = 9,
+	vkGetDeviceProcAddr = 10,
+	vkCreateDevice = 11,
+	vkDestroyDevice = 12,
+	vkEnumerateInstanceExtensionProperties = 13,
+	vkEnumerateDeviceExtensionProperties = 14,
+	vkEnumerateDeviceLayerProperties = 15,
+	vkGetDeviceQueue = 16,
+	vkQueueSubmit = 17,
+	vkQueueWaitIdle = 18,
+	vkDeviceWaitIdle = 19,
+	vkAllocateMemory = 20,
+	vkFreeMemory = 21,
+	vkMapMemory = 22,
+	vkUnmapMemory = 23,
+	vkFlushMappedMemoryRanges = 24,
+	vkInvalidateMappedMemoryRanges = 25,
+	vkGetDeviceMemoryCommitment = 26,
+	vkBindBufferMemory = 27,
+	vkBindImageMemory = 28,
+	vkGetBufferMemoryRequirements = 29,
+	vkGetImageMemoryRequirements = 30,
+	vkGetImageSparseMemoryRequirements = 31,
+	vkGetPhysicalDeviceSparseImageFormatProperties = 32,
+	vkQueueBindSparse = 33,
+	vkCreateFence = 34,
+	vkDestroyFence = 35,
+	vkResetFences = 36,
+	vkGetFenceStatus = 37,
+	vkWaitForFences = 38,
+	vkCreateSemaphore = 39,
+	vkDestroySemaphore = 40,
+	vkCreateEvent = 41,
+	vkDestroyEvent = 42,
+	vkGetEventStatus = 43,
+	vkSetEvent = 44,
+	vkResetEvent = 45,
+	vkCreateQueryPool = 46,
+	vkDestroyQueryPool = 47,
+	vkGetQueryPoolResults = 48,
+	vkCreateBuffer = 49,
+	vkDestroyBuffer = 50,
+	vkCreateBufferView = 51,
+	vkDestroyBufferView = 52,
+	vkCreateImage = 53,
+	vkDestroyImage = 54,
+	vkGetImageSubresourceLayout = 55,
+	vkCreateImageView = 56,
+	vkDestroyImageView = 57,
+	vkCreateShaderModule = 58,
+	vkDestroyShaderModule = 59,
+	vkCreatePipelineCache = 60,
+	vkDestroyPipelineCache = 61,
+	vkGetPipelineCacheData = 62,
+	vkMergePipelineCaches = 63,
+	vkCreateGraphicsPipelines = 64,
+	vkCreateComputePipelines = 65,
+	vkDestroyPipeline = 66,
+	vkCreatePipelineLayout = 67,
+	vkDestroyPipelineLayout = 68,
+	vkCreateSampler = 69,
+	vkDestroySampler = 70,
+	vkCreateDescriptorSetLayout = 71,
+	vkDestroyDescriptorSetLayout = 72,
+	vkCreateDescriptorPool = 73,
+	vkDestroyDescriptorPool = 74,
+	vkResetDescriptorPool = 75,
+	vkAllocateDescriptorSets = 76,
+	vkFreeDescriptorSets = 77,
+	vkUpdateDescriptorSets = 78,
+	vkCreateFramebuffer = 79,
+	vkDestroyFramebuffer = 80,
+	vkCreateRenderPass = 81,
+	vkDestroyRenderPass = 82,
+	vkGetRenderAreaGranularity = 83,
+	vkCreateCommandPool = 84,
+	vkDestroyCommandPool = 85,
+	vkResetCommandPool = 86,
+	vkAllocateCommandBuffers = 87,
+	vkFreeCommandBuffers = 88,
+	vkBeginCommandBuffer = 89,
+	vkEndCommandBuffer = 90,
+	vkResetCommandBuffer = 91,
+	vkCmdBindPipeline = 92,
+	vkCmdSetViewport = 93,
+	vkCmdSetScissor = 94,
+	vkCmdSetLineWidth = 95,
+	vkCmdSetDepthBias = 96,
+	vkCmdSetBlendConstants = 97,
+	vkCmdSetDepthBounds = 98,
+	vkCmdSetStencilCompareMask = 99,
+	vkCmdSetStencilWriteMask = 100,
+	vkCmdSetStencilReference = 101,
+	vkCmdBindDescriptorSets = 102,
+	vkCmdBindIndexBuffer = 103,
+	vkCmdBindVertexBuffers = 104,
+	vkCmdDraw = 105,
+	vkCmdDrawIndexed = 106,
+	vkCmdDrawIndirect = 107,
+	vkCmdDrawIndexedIndirect = 108,
+	vkCmdDispatch = 109,
+	vkCmdDispatchIndirect = 110,
+	vkCmdCopyBuffer = 111,
+	vkCmdCopyImage = 112,
+	vkCmdBlitImage = 113,
+	vkCmdCopyBufferToImage = 114,
+	vkCmdCopyImageToBuffer = 115,
+	vkCmdUpdateBuffer = 116,
+	vkCmdFillBuffer = 117,
+	vkCmdClearColorImage = 118,
+	vkCmdClearDepthStencilImage = 119,
+	vkCmdClearAttachments = 120,
+	vkCmdResolveImage = 121,
+	vkCmdSetEvent = 122,
+	vkCmdResetEvent = 123,
+	vkCmdWaitEvents = 124,
+	vkCmdPipelineBarrier = 125,
+	vkCmdBeginQuery = 126,
+	vkCmdEndQuery = 127,
+	vkCmdResetQueryPool = 128,
+	vkCmdWriteTimestamp = 129,
+	vkCmdCopyQueryPoolResults = 130,
+	vkCmdPushConstants = 131,
+	vkCmdBeginRenderPass = 132,
+	vkCmdNextSubpass = 133,
+	vkCmdEndRenderPass = 134,
+	vkCmdExecuteCommands = 135,
+};
